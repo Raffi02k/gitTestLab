@@ -35,4 +35,3 @@ public class Booking {
         return endTime;
     }
 }
-
