@@ -7,13 +7,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ShoppingCartTest {
 
-        //Remove
-        ShoppingCart shoppingCart = new ShoppingCart();
+    //Remove
+    ShoppingCart shoppingCart = new ShoppingCart();
 
 
     //Creat new ShoppingCartList
     @Test
-    void CreatShoppingCartList(){
+    void CreatShoppingCartList() {
         ShoppingCart shoppingCart = new ShoppingCart();
 
     }
@@ -27,26 +27,27 @@ class ShoppingCartTest {
     //Add a String
     @Test
     void addStringMakesSizeReturnOne() {
-        shoppingCart.add("");
+        shoppingCart.add("Item1");
         assertThat(shoppingCart.size()).isEqualTo(1);
     }
 
     //Get
     @Test
-    void getReturnsAddedString(){
-        shoppingCart.add("");
+    void getReturnsAddedString() {
+        shoppingCart.add("Hello");
         assertThat(shoppingCart.get()).isEqualTo("Hello");
 
     }
 
     @Test
-    void getReturnsAnotherAddedString(){
+    void getReturnsAnotherAddedString() {
         shoppingCart.add("World");
         assertThat(shoppingCart.get()).isEqualTo("World");
 
     }
+
     @Test
-    void addTwoStringsAndReturnFirstUsingIndex(){
+    void addTwoStringsAndReturnFirstUsingIndex() {
         shoppingCart.add("World");
         shoppingCart.add("Hello");
         assertThat(shoppingCart.get()).isEqualTo("Hello");
