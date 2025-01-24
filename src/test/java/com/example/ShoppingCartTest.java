@@ -48,10 +48,10 @@ class ShoppingCartTest {
 
     @Test
     void addTwoStringsAndReturnFirstUsingIndex() {
-        shoppingCart.add("World");
         shoppingCart.add("Hello");
-        assertThat(shoppingCart.get()).isEqualTo("Hello");
-        assertThat(shoppingCart.get()).isEqualTo("World");
+        shoppingCart.add("World");
+        assertThat(shoppingCart.get(0)).isEqualTo("Hello");
+        assertThat(shoppingCart.get(1)).isEqualTo("World");
 
     }
 
