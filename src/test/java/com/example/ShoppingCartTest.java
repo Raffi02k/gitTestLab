@@ -7,9 +7,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ShoppingCartTest {
 
-        //Add a String
         //Remove
-        //Get
+        ShoppingCart shoppingCart = new ShoppingCart();
+
 
     //Creat new ShoppingCartList
     @Test
@@ -21,15 +21,37 @@ class ShoppingCartTest {
     //Check Size
     @Test
     void newShoppingCartIsEmpty() {
-        ShoppingCart shoppingCart = new ShoppingCart();
         assertThat(shoppingCart.size()).isEqualTo(0);
     }
 
+    //Add a String
     @Test
     void addStringMakesSizeReturnOne() {
-        ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.add("");
         assertThat(shoppingCart.size()).isEqualTo(1);
+    }
+
+    //Get
+    @Test
+    void getReturnsAddedString(){
+        shoppingCart.add("");
+        assertThat(shoppingCart.get()).isEqualTo("Hello");
+
+    }
+
+    @Test
+    void getReturnsAnotherAddedString(){
+        shoppingCart.add("World");
+        assertThat(shoppingCart.get()).isEqualTo("World");
+
+    }
+    @Test
+    void addTwoStringsAndReturnFirstUsingIndex(){
+        shoppingCart.add("World");
+        shoppingCart.add("Hello");
+        assertThat(shoppingCart.get()).isEqualTo("Hello");
+        assertThat(shoppingCart.get()).isEqualTo("World");
+
     }
 
 }
