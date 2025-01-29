@@ -1,42 +1,37 @@
 package com.example;
 
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class ShoppingCartTest {
-
-    //Remove
     ShoppingCart shoppingCart = new ShoppingCart();
 
-
-    //Creat new ShoppingCartList
     @Test
     void CreatShoppingCartList() {
         ShoppingCart shoppingCart = new ShoppingCart();
-
+        assertThat(shoppingCart.getItemCount()).isEqualTo(0);
     }
 
-    //Check Size
     @Test
     void newShoppingCartIsEmpty() {
-        assertThat(shoppingCart.size()).isEqualTo(0);
+        assertThat(shoppingCart.getItemCount()).isEqualTo(0);
     }
 
-    //Add a String
     @Test
     void addItemToShoppingCart() {
-        shoppingCart.add("Item1");
-        assertThat(shoppingCart.size()).isEqualTo(1);
+        shoppingCart.addItem("Item1", 1, 10.0);
+        assertThat(shoppingCart.getItemCount()).isEqualTo(1);
     }
 
-    //Remove
     @DisplayName("Remove item from shoppingCart")
     @Test
     void testRemoveItem() {
-        fail("Not yet implemented");
+        shoppingCart.addItem("Item1", 1, 10.0);
+        shoppingCart.removeItem("Item1");
+        assertThat(shoppingCart.getItemCount()).isEqualTo(0);
     }
 
     @DisplayName("Update Quantity of item")
@@ -51,41 +46,36 @@ class ShoppingCartTest {
         fail("Not yet implemented");
     }
 
-    @DisplayName("Apply discount to a item")
+    @DisplayName("Apply discount to an item")
     @Test
     void ApplyDiscount() {
         fail("Not yet implemented");
     }
 
-    @DisplayName("Remove non existing item from shoppingcart")
+    @DisplayName("Remove non-existing item from shopping cart")
     @Test
     void RemoveNonExistingItem() {
-        fail("Not yet implemented");
+        shoppingCart.removeItem("NonExistingItem");
+        assertThat(shoppingCart.getItemCount()).isEqualTo(0);
     }
 
-
-    //Get
     @Test
     void getReturnsAddedString() {
-        shoppingCart.add("Hello");
+        shoppingCart.addItem("Hello", 1, 10.0);
         assertThat(shoppingCart.get()).isEqualTo("Hello");
-
     }
 
     @Test
     void getReturnsAnotherAddedString() {
-        shoppingCart.add("World");
+        shoppingCart.addItem("World", 1, 10.0);
         assertThat(shoppingCart.get()).isEqualTo("World");
-
     }
 
     @Test
     void addTwoStringsAndReturnFirstUsingIndex() {
-        shoppingCart.add("Hello");
-        shoppingCart.add("World");
+        shoppingCart.addItem("Hello", 1, 10.0);
+        shoppingCart.addItem("World", 1, 10.0);
         assertThat(shoppingCart.get(0)).isEqualTo("Hello");
         assertThat(shoppingCart.get(1)).isEqualTo("World");
-
     }
-
 }
