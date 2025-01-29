@@ -1,6 +1,7 @@
 package com.example;
 
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,10 +27,42 @@ class ShoppingCartTest {
 
     //Add a String
     @Test
-    void addStringMakesSizeReturnOne() {
+    void addItemToShoppingCart() {
         shoppingCart.add("Item1");
         assertThat(shoppingCart.size()).isEqualTo(1);
     }
+
+    //Remove
+    @DisplayName("Remove item from shoppingCart")
+    @Test
+    void testRemoveItem() {
+        fail("Not yet implemented");
+    }
+
+    @DisplayName("Update Quantity of item")
+    @Test
+    void UpdateQuantity() {
+        fail("Not yet implemented");
+    }
+
+    @DisplayName("Calculate total price of items")
+    @Test
+    void CalculateTotalPrice() {
+        fail("Not yet implemented");
+    }
+
+    @DisplayName("Apply discount to a item")
+    @Test
+    void ApplyDiscount() {
+        fail("Not yet implemented");
+    }
+
+    @DisplayName("Remove non existing item from shoppingcart")
+    @Test
+    void RemoveNonExistingItem() {
+        fail("Not yet implemented");
+    }
+
 
     //Get
     @Test
