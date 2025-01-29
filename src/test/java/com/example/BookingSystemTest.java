@@ -3,14 +3,18 @@ package com.example;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,6 +26,9 @@ class BookingSystemTest {
 
     @Mock
     private TimeProvider timeProvider; // Mock för TimeProvider
+
+    @Mock
+    private Room room;
 
     @Mock
     private RoomRepository roomRepository; // Mock för RoomRepository
@@ -107,13 +114,6 @@ class BookingSystemTest {
         assertThat(result).isFalse();
     }
 
-
-
-
-
-
-
-
     @Test
     @DisplayName("Booking process with notification success")
     void bookRoom_SuccessfulBookingAndNotification() throws NotificationException {
@@ -122,12 +122,9 @@ class BookingSystemTest {
 
         Room room = new Room("room1", "room name");
         when(roomRepository.findById("room1")).thenReturn(Optional.of(room));
-//        when(room.isAvailable(currentTime.plusHours(1), currentTime.plusHours(2))).thenReturn(true);
 
         LocalDateTime startTime = currentTime.plusHours(1);
         LocalDateTime endTime = currentTime.plusHours(2);
-
-        Booking booking = new Booking(UUID.randomUUID().toString(), "room1", startTime, endTime);
 
         // Testa om notifiering skickas
         bookingSystem.bookRoom("room1", startTime, endTime);
@@ -145,14 +142,10 @@ class BookingSystemTest {
 
         Room room = new Room("room1", "room name");
         when(roomRepository.findById("room1")).thenReturn(Optional.of(room));
-//        when(room.isAvailable(currentTime.plusHours(1), currentTime.plusHours(2))).thenReturn(true);
 
         LocalDateTime startTime = currentTime.plusHours(1);
         LocalDateTime endTime = currentTime.plusHours(2);
 
-        Booking booking = new Booking(UUID.randomUUID().toString(), "room1", startTime, endTime);
-
-        // Simulera att notifiering misslyckas genom att kasta NotificationException
         doThrow(NotificationException.class).when(notificationService).sendBookingConfirmation(Mockito.any());
 
         // Kontrollera att bokningen inte stoppas av notifieringsfelet
@@ -162,6 +155,29 @@ class BookingSystemTest {
         // Verifiera att notifieringen anropas, trots att ett undantag kastades
         verify(notificationService).sendBookingConfirmation(Mockito.any());
         verify(roomRepository).save(room);
+    }
+
+
+    @Test
+    @DisplayName("getAvailableRoums returnerar endast tillgängliga rum")
+    void getAvailableRooms_ReturnsOnlyAvailableRooms() {
+        // Mocka tider
+        LocalDateTime start = LocalDateTime.of(2024, 1, 1, 10, 0);
+        LocalDateTime end = start.plusHours(1);
+
+        // Skapa mockade rum
+        Room availableRoom = mock(Room.class);
+        when(availableRoom.isAvailable(start, end)).thenReturn(true);
+
+        Room unavailableRoom = mock(Room.class);
+        when(unavailableRoom.isAvailable(start, end)).thenReturn(false);
+
+        // Mocka repository
+        when(roomRepository.findAll()).thenReturn(List.of(availableRoom, unavailableRoom));
+
+        // Anropa metod och verifiera
+        List<Room> result = bookingSystem.getAvailableRooms(start, end);
+        assertThat(result).containsExactly(availableRoom);
     }
 
 }
