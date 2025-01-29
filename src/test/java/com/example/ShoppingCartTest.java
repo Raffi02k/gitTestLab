@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class ShoppingCartTest {
     ShoppingCart shoppingCart = new ShoppingCart();
@@ -67,13 +66,13 @@ class ShoppingCartTest {
     @Test
     void getReturnsAddedString() {
         shoppingCart.addItem("Hello", 1, 10.0);
-        assertThat(shoppingCart.get()).isEqualTo("Hello");
+        assertThat(shoppingCart.get(0)).isEqualTo("Hello");
     }
 
     @Test
     void getReturnsAnotherAddedString() {
         shoppingCart.addItem("World", 1, 10.0);
-        assertThat(shoppingCart.get()).isEqualTo("World");
+        assertThat(shoppingCart.get(0)).isEqualTo("World");
     }
 
     @Test
