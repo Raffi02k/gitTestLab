@@ -203,6 +203,14 @@ class BookingSystemTest {
                 .hasMessage("Sluttid måste vara efter starttid");
     }
 
+    @Test
+    @DisplayName("cancelBooking kastar undantag vid null-boknings-ID")
+    void cancelBooking_NullId_ThrowsException() {
+        assertThatThrownBy(() -> bookingSystem.cancelBooking(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Boknings-id kan inte vara null");
+    }
+
 }
 
 
