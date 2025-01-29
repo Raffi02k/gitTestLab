@@ -242,6 +242,30 @@ class BookingSystemTest {
                 .hasMessage("Kan inte avboka påbörjad eller avslutad bokning");
     }
 
+    @Test
+    @DisplayName("cancelBooking lyckas och skickar notifiering")
+    void cancelBooking_Success_SendsNotification() throws NotificationException {
+        // Mocka tid
+        LocalDateTime currentTime = LocalDateTime.of(2024, 1, 1, 10, 0);
+        when(timeProvider.getCurrentTime()).thenReturn(currentTime);
+
+        // Skapa en framtida bokning
+        Booking futureBooking = new Booking("futureBooking", "room1", currentTime.plusHours(1), currentTime.plusHours(2));
+        Room room = new Room("room1", "TestRum");
+        room.addBooking(futureBooking);
+
+        // Mocka repository
+        when(roomRepository.findAll()).thenReturn(List.of(room));
+
+        // Utför avbokning
+        boolean result = bookingSystem.cancelBooking("futureBooking");
+
+        // Verifiera
+        assertThat(result).isTrue();
+        verify(roomRepository).save(room); // Kollar att rummet sparades
+        verify(notificationService).sendCancellationConfirmation(futureBooking); // Kollar notifiering
+    }
+
 }
 
 
