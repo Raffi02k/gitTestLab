@@ -60,16 +60,18 @@ public class ShoppingCart {
                 return;
             }
         }
-
+        throw new IllegalArgumentException("Item not found: " + item);
     }
 
-    public String get() {
-        if (items.isEmpty()) {
-            throw new IllegalStateException("Shopping cart is empty!");
+    public int getQuantity(String item) {
+        for (CartItem cartItem : items) {
+            if (cartItem.getName().equals(item)) {
+                return cartItem.getQuantity();
+            }
         }
-        return items.get(items.size() - 1).getName();
+        return 0;
     }
-
-
-
 }
+
+
+
