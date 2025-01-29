@@ -37,19 +37,24 @@ class ShoppingCartTest {
     @DisplayName("Update Quantity of item")
     @Test
     void UpdateQuantity() {
-        fail("Not yet implemented");
-    }
+        shoppingCart.addItem("Item1", 1, 10.0);
+        shoppingCart.updateQuantity("Item1", 3);
+        assertThat(shoppingCart.getQuantity("Item1")).isEqualTo(3);    }
 
     @DisplayName("Calculate total price of items")
     @Test
     void CalculateTotalPrice() {
-        fail("Not yet implemented");
+        shoppingCart.addItem("Item1", 2, 10.0);
+        shoppingCart.addItem("Item2", 3, 5.0);
+        assertThat(shoppingCart.calculateTotalPrice()).isEqualTo(35.0);
     }
 
     @DisplayName("Apply discount to an item")
     @Test
     void ApplyDiscount() {
-        fail("Not yet implemented");
+        shoppingCart.addItem("Item1", 1, 10.0);
+        shoppingCart.applyDiscount("Item1", 10);
+        assertThat(shoppingCart.calculateTotalPrice()).isEqualTo(9.0);
     }
 
     @DisplayName("Remove non-existing item from shopping cart")

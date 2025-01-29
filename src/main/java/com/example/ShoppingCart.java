@@ -21,4 +21,20 @@ public class ShoppingCart {
     public void removeItem(String item) {
         items.removeIf(cartItem -> cartItem.getName().equals(item));
     }
+    public String get(int index) {
+        if (index < 0 || index >= items.size()) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+        return items.get(index).getName();
+    }
+
+    public String get() {
+        if (items.isEmpty()) {
+            throw new IllegalStateException("Shopping cart is empty!");
+        }
+        return items.get(items.size() - 1).getName();
+    }
+
+
+
 }
