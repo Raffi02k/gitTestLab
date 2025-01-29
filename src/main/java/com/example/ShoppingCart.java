@@ -52,6 +52,17 @@ public class ShoppingCart {
                 .sum();
     }
 
+    public void applyDiscount(String item, double discountPercentage) {
+        for (CartItem cartItem : items) {
+            if (cartItem.getName().equals(item)) {
+                double discountedPrice = cartItem.getPrice() * (1 - discountPercentage / 100);
+                cartItem.setPrice(discountedPrice);
+                return;
+            }
+        }
+
+    }
+
     public String get() {
         if (items.isEmpty()) {
             throw new IllegalStateException("Shopping cart is empty!");
