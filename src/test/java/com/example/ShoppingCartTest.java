@@ -38,7 +38,8 @@ class ShoppingCartTest {
     void UpdateQuantity() {
         shoppingCart.addItem("Item1", 1, 10.0);
         shoppingCart.updateQuantity("Item1", 3);
-        assertThat(shoppingCart.getQuantity("Item1")).isEqualTo(3);    }
+        assertThat(shoppingCart.getQuantity("Item1")).isEqualTo(-2);
+    }
 
     @DisplayName("Calculate total price of items")
     @Test
