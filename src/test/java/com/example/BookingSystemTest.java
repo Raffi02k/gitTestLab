@@ -180,6 +180,29 @@ class BookingSystemTest {
         assertThat(result).containsExactly(availableRoom);
     }
 
+    @Test
+    @DisplayName("getAvailableRooms kastar undantag vid ogiltiga tider")
+    void getAvailableRooms_InvalidArguments_ThrowsException() {
+        // Giltig tid för testet
+        LocalDateTime validTime = LocalDateTime.of(2024, 1, 1, 10, 0);
+
+        // Testfall 1: starttid är null
+        assertThatThrownBy(() -> bookingSystem.getAvailableRooms(null, validTime))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Måste ange både start- och sluttid");
+
+        // Testfall 2: sluttid är null
+        assertThatThrownBy(() -> bookingSystem.getAvailableRooms(validTime, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Måste ange både start- och sluttid");
+
+        // Testfall 3: sluttid är före starttid
+        LocalDateTime invalidEndTime = validTime.minusHours(1);
+        assertThatThrownBy(() -> bookingSystem.getAvailableRooms(validTime, invalidEndTime))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Sluttid måste vara efter starttid");
+    }
+
 }
 
 
