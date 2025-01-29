@@ -11,6 +11,12 @@ public class ShoppingCart {
     }
 
     public void addItem(String item, int quantity, double price) {
+        for (CartItem cartItem : items) {
+            if (cartItem.getName().equals(item)) {
+                cartItem.setQuantity(cartItem.getQuantity() + quantity);
+                return;
+            }
+        }
         items.add(new CartItem(item, quantity, price));
     }
 
