@@ -27,11 +27,22 @@ public class ShoppingCart {
     public void removeItem(String item) {
         items.removeIf(cartItem -> cartItem.getName().equals(item));
     }
+
+
     public String get(int index) {
         if (index < 0 || index >= items.size()) {
             throw new IndexOutOfBoundsException("Invalid index: " + index);
         }
         return items.get(index).getName();
+    }
+
+    public void updateQuantity(String item, int newQuantity) {
+        for (CartItem cartItem : items) {
+            if (cartItem.getName().equals(item)) {
+                cartItem.setQuantity(cartItem.getQuantity() - newQuantity);
+                return;
+            }
+        }
     }
 
     public String get() {
