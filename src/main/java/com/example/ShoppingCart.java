@@ -43,6 +43,13 @@ public class ShoppingCart {
                 return;
             }
         }
+        throw new IllegalArgumentException("Item not found: " + item);
+    }
+
+    public double calculateTotalPrice() {
+        return items.stream()
+                .mapToDouble(item -> item.getQuantity() * item.getPrice())
+                .sum();
     }
 
     public String get() {
