@@ -220,6 +220,28 @@ class BookingSystemTest {
         assertThat(result).isFalse();
     }
 
+    @Test
+    @DisplayName("cancelBooking kastar undantag vid avbokning av påbörjad/avslutad bokning")
+    void cancelBooking_PastBooking_ThrowsException() {
+        // Mocka tid
+        LocalDateTime currentTime = LocalDateTime.of(2024, 1, 1, 12, 0);
+        when(timeProvider.getCurrentTime()).thenReturn(currentTime);
+
+        // Skapa en bokning i dåtid
+        Booking pastBooking = new Booking("pastBooking", "room1", currentTime.minusHours(2), currentTime.minusHours(1));
+        Room room = mock(Room.class);
+        when(room.hasBooking("pastBooking")).thenReturn(true);
+        when(room.getBooking("pastBooking")).thenReturn(pastBooking);
+
+        // Mocka repository
+        when(roomRepository.findAll()).thenReturn(List.of(room));
+
+        // Verifiera undantag
+        assertThatThrownBy(() -> bookingSystem.cancelBooking("pastBooking"))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("Kan inte avboka påbörjad eller avslutad bokning");
+    }
+
 }
 
 
